@@ -15,8 +15,9 @@ FRAMEWORK_DIR="/usr/share/sowerphp"
 WWW_DIR="/var/www"
 COMPOSER="$HOME/bin/composer"
 
-# archivo de configuración
-CONFIG="$HOME/.sowerphp.conf"
+# configuraciones que no dependen del usuario
+CONFIG="$HOME/.sowerpkg.conf"
+LOG="/tmp/sowerpkg_`whoami`_`date +%Y%m%d%H%M%S`.log"
 
 # función que guarda las configuraciones en el archivo de configuración
 function sowerphp_config {
@@ -86,6 +87,8 @@ function sowerphp_install {
 	if [ ! -z "$WWW_DIR" ]; then
 		sowerphp_create_project "$WWW_DIR"
 	fi
+	# mostrar mensaje log guardado
+	echo "Log guardado en $LOG"
 }
 
 # función para realizar la instalación del framework
@@ -103,12 +106,12 @@ function sowerphp_install_framework {
 		sudo mkdir -p "$FRAMEWORK_DIR"
 		sudo chown `whoami`: "$FRAMEWORK_DIR" -R
 	fi
-	git clone https://github.com/SowerPHP/sowerphp.git "$FRAMEWORK_DIR" 2> /dev/null
+	git clone https://github.com/SowerPHP/sowerphp.git "$FRAMEWORK_DIR" >> $LOG 2>&1
 	if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 	# instalar dependencias de composer
 	cd "$FRAMEWORK_DIR/lib/sowerphp/core"
 	echo -n " Instalando dependencias de composer... "
-	$COMPOSER install 2> /dev/null
+	$COMPOSER install >> $LOG 2>&1
 	if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 	# instalar extensiones
 	if [ ! -z "$EXTENSIONS" ]; then
@@ -117,12 +120,12 @@ function sowerphp_install_framework {
 		mkdir -p "$EXTENSIONS_DIR"
 		for EXTENSION in $EXTENSIONS; do
 			echo -n " - Instalando extensión ${EXTENSION}... "
-			git clone https://github.com/SowerPHP/extension-${EXTENSION}.git "$EXTENSIONS_DIR/$EXTENSION" 2> /dev/null
+			git clone https://github.com/SowerPHP/extension-${EXTENSION}.git "$EXTENSIONS_DIR/$EXTENSION" >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 			# instalar dependencias de composer
 			cd "$EXTENSIONS_DIR/$EXTENSION"
 			echo -n "    Instalando dependencias de composer... "
-			$COMPOSER install 2> /dev/null
+			$COMPOSER install >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 		done
 	fi
@@ -164,12 +167,12 @@ function sowerphp_update {
 	# actualizar framework
 	echo -n "Actualizando SowerPHP... "
 	cd "$FRAMEWORK_DIR"
-	git pull origin master >/dev/null 2>&1
+	git pull origin master >> $LOG 2>&1
 	if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 	# actualizar dependencias de composer
 	cd "$FRAMEWORK_DIR/lib/sowerphp/core"
 	echo -n " Actualizando dependencias de composer... "
-	$COMPOSER update 2> /dev/null
+	$COMPOSER update >> $LOG 2>&1
 	if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 	# actualizar extensiones
 	if [ ! -z "$EXTENSIONS" ]; then
@@ -177,14 +180,16 @@ function sowerphp_update {
 		for EXTENSION in $EXTENSIONS; do
 			echo -n " - Actualizando extensión ${EXTENSION}... "
 			cd "$EXTENSIONS_DIR/$EXTENSION"
-			git pull origin master >/dev/null 2>&1
+			git pull origin master >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 			# actualizar dependencias de composer
 			echo -n "    Actualizando dependencias de composer... "
-			$COMPOSER update 2> /dev/null
+			$COMPOSER update >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 		done
 	fi
+	# mostrar mensaje log guardado
+	echo "Log guardado en $LOG"
 }
 
 # si no se pasó ninguna acción se muestra mensaje modo de uso

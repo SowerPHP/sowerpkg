@@ -15,7 +15,7 @@ Por defecto SowerPKG utiliza las siguientes opciones:
 
 Donde *$HOME* será el directorio principal del usuario con que se ejecuta SowerPKG.
 
-Esta herramienta almacena la configuración del framework en *~/.sowerphp.conf*, esto con el fin de no tener que ingresar las opciones personalizadas cada vez.
+Esta herramienta almacena la configuración del framework en *~/.sowerpkg.conf*, esto con el fin de no tener que ingresar las opciones personalizadas cada vez.
 
 Ejemplos de modo de uso
 -----------------------

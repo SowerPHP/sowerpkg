@@ -148,7 +148,7 @@ function sowerphp_install_framework {
 
 # función para crear un proyecto
 function sowerphp_create_project {
-	echo -n "Creando projecto web... "
+	echo -n "Creando proyecto web... "
 	WWW_DIR=$1
 	if [ -d "$WWW_DIR" ]; then
 		echo "FAIL!"
@@ -168,7 +168,7 @@ function sowerphp_create_project {
 				sudo cp -a "$FRAMEWORK_DIR/project" "$WWW_DIR" > /dev/null
 				sudo chown `whoami`: "$WWW_DIR" -R
 			fi
-			sed -i 's/dirname(dirname(dirname(dirname(__FILE__))))/"'"${FRAMEWORK_DIR//\//\\\/}"'"/' "$WWW_DIR/website/webroot/index.php"
+			sed -i 's/dirname(dirname(dirname(dirname(__FILE__))))/"'"${FRAMEWORK_DIR//\//\\/}"'"/' "$WWW_DIR/website/webroot/index.php"
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 		else
 			echo "FAIL!"

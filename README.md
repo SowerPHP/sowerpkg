@@ -48,4 +48,4 @@ Para realizar la instalación del framework y su posterior uso se requiere como 
 - Servidor web Apache 2.x con mod\_rewrite activo y *AllowOverride All* para el o los directorios que alojarán los proyectos.
 - PHP 5.5 o superior
 - Git y mercurial
-
+- curl

@@ -187,7 +187,7 @@ function sowerphp_update {
 	# actualizar dependencias de composer
 	cd "$FRAMEWORK_DIR/lib/sowerphp/core"
 	echo -n " Actualizando dependencias de composer... "
-	$COMPOSER update >> $LOG 2>&1
+	$COMPOSER install >> $LOG 2>&1
 	if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 	# actualizar extensiones
 	if [ ! -z "$EXTENSIONS" ]; then
@@ -199,7 +199,7 @@ function sowerphp_update {
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 			# actualizar dependencias de composer
 			echo -n "    Actualizando dependencias de composer... "
-			$COMPOSER update >> $LOG 2>&1
+			$COMPOSER install >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 		done
 	fi

@@ -136,7 +136,7 @@ function sowerphp_install_framework {
 		mkdir -p "$EXTENSIONS_DIR"
 		for EXTENSION in $EXTENSIONS; do
 			echo -n " - Instalando extensión ${EXTENSION}... "
-			git clone https://github.com/SowerPHP/extension-${EXTENSION}.git "$EXTENSIONS_DIR/$EXTENSION" >> $LOG 2>&1
+			git clone https://github.com/SowerPHP/sowerphp-extension-${EXTENSION}.git "$EXTENSIONS_DIR/$EXTENSION" >> $LOG 2>&1
 			if [ $? -eq 0 ]; then echo "OK!"; else echo "FAIL!"; fi
 			# instalar dependencias de composer
 			cd "$EXTENSIONS_DIR/$EXTENSION"
